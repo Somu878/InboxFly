@@ -6,7 +6,7 @@ import Image from "next/image";
 function Appbar() {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const userImage = session?.user?.image || "/default-profile.png"; // Default image URL
+  const userImage = session?.user?.image || "/default-profile.png";
   if (status == "unauthenticated") {
     router.push("/api/auth/signin");
   }

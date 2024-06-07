@@ -1,22 +1,27 @@
 "use client";
 import Image from "next/image";
 import { signIn } from "next-auth/react";
+import { useState } from "react";
 
-export default function SignIn(providers: any) {
+export default function SignInPage() {
+  const [apiKey, setApiKey] = useState<string>("");
+  const handleSignIn = () => {
+    if (!apiKey) {
+      return;
+    }
+    signIn("google", { callbackUrl: "/" });
+    localStorage.setItem("openApiKey", apiKey);
+  };
+  const handleApiKeyChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setApiKey(event.target.value);
+  };
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-      }}
-    >
+    <div className="flex justify-center items-center h-screen">
       <div className="flex flex-col gap-36">
         <div className="flex justify-center">
           <button
-            className="px-4 py-2 border flex gap-2 border-slate-200 text-l rounded-lg"
-            onClick={() => signIn("google", { callbackUrl: "/" })}
+            className="px-4 py-2 border flex gap-2 border-slate-200 text-l rounded-lg hover:border-gray-600"
+            onClick={handleSignIn}
           >
             <Image
               className="w-6 h-6"
@@ -33,6 +38,8 @@ export default function SignIn(providers: any) {
           name="text"
           placeholder="Enter your OpenAi Api key"
           type="text"
+          value={apiKey}
+          onChange={handleApiKeyChange}
         />
       </div>
     </div>
