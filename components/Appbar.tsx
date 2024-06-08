@@ -17,15 +17,16 @@ function Appbar() {
         {session?.user?.image && (
           <Image
             src={userImage}
-            width={40}
-            height={40}
+            width={50}
+            height={50}
             alt="user's profile"
             className="rounded-full"
           />
         )}
         <div className="ml-4">
-          <div className="font-bold">Hello! {session?.user?.name}</div>
-          <div>{session?.user?.email}</div>
+          <div className="font-bold text-lg">Hello {session?.user?.name}!</div>
+          <div className="font-light text-sm">{session?.user?.email}</div>
+          {/* {session && <pre>{JSON.stringify(session, null, 2)}</pre>} */}
         </div>
       </div>
       <button

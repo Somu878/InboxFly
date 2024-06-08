@@ -17,13 +17,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} overflow-hidden`}>
-        <Providers>
-          <h1 className="text-4xl font-bold text-center text-gray-800 dark:text-gray-200 mt-4">
-            InboxFly
-          </h1>
-          {children}
-        </Providers>
+      <body className={`${inter.className}`}>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
