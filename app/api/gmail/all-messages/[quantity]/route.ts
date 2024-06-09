@@ -2,8 +2,13 @@ import { google } from "googleapis";
 import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 import { getMessageBody, auth, extractNameFromHeader } from "@/utils/googleApi";
-export async function GET(req: NextRequest) {
+import { Quicksand } from "next/font/google";
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { quantity: number } }
+) {
   try {
+    const { quantity } = params;
     const token: any = await getToken({ req, secret: process.env.JWT_SECRET });
     if (!token) {
       console.error("No token found");
@@ -21,7 +26,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "No messages found" });
     }
     const fullMessages = await Promise.all(
-      messages.slice(0, 10).map(async (message) => {
+      messages.slice(0, quantity).map(async (message) => {
         const messageDetail = await gmail.users.messages.get({
           userId: "me",
           id: message.id!,
