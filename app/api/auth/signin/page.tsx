@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
-
+import { BackgroundBeams } from "@/components/ui/background-beams";
 export default function SignInPage() {
   const [apiKey, setApiKey] = useState<string>("");
   const handleSignIn = () => {
@@ -16,8 +16,11 @@ export default function SignInPage() {
     setApiKey(event.target.value);
   };
   return (
-    <div className="flex justify-center items-center h-screen">
-      <div className="flex flex-col gap-36">
+    <div className="flex  flex-col gap-20 h-screen">
+      <h1 className="relative mt-24 z-10 text-lg md:text-7xl  bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-600  text-center font-sans font-bold">
+        Welcome to InboxFly
+      </h1>
+      <div className="flex flex-col justify-center items-center mt-28 gap-36 z-10">
         <div className="flex justify-center">
           <button
             className="px-4 py-2 border flex gap-2 border-slate-200 text-l rounded-lg hover:border-gray-600"
@@ -42,6 +45,7 @@ export default function SignInPage() {
           onChange={handleApiKeyChange}
         />
       </div>
+      <BackgroundBeams />
     </div>
   );
 }

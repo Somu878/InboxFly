@@ -1,12 +1,13 @@
+"use server";
 import { google } from "googleapis";
-import { getToken } from "next-auth/jwt";
-import { NextRequest, NextResponse } from "next/server";
-
+import { getServerSession } from "next-auth";
+import { authOptions } from "../auth";
 const auth = new google.auth.OAuth2(
   process.env.GOOGLE_CLIENT_ID,
   process.env.GOOGLE_CLIENT_SECRET,
   "http://localhost:3000"
 );
+
 function decodeBase64(encodedString: string): string {
   return Buffer.from(encodedString, "base64").toString("utf-8");
 }
@@ -28,19 +29,18 @@ function getMessageBody(payload: any): string {
   }
   return body;
 }
-function extractNameFromHeader(headerValue: string): string {
-  const nameMatch = headerValue.match(/^(.*?)(?=\s*<)/);
-  return nameMatch ? nameMatch[1] : headerValue;
-}
-export async function GET(req: NextRequest) {
+
+export default async function fetchMessages() {
   try {
-    const token: any = await getToken({ req, secret: process.env.JWT_SECRET });
+    const session = await getServerSession(authOptions);
+    const token = session?.access_token;
     if (!token) {
       console.error("No token found");
-      return NextResponse.json({ error: "Unauthorized" });
+      return { error: "Unauthorized" };
     }
-    const code = token?.access_token;
-    auth.setCredentials({ access_token: code });
+    const accessToken = token.accessToken;
+
+    auth.setCredentials({ access_token: accessToken });
     const gmail = google.gmail({ version: "v1", auth });
     const messageListResponse = await gmail.users.messages.list({
       userId: "me",
@@ -48,7 +48,7 @@ export async function GET(req: NextRequest) {
     const messages = messageListResponse.data.messages;
 
     if (!messages) {
-      return NextResponse.json({ error: "No messages found" });
+      return { error: "No messages found" };
     }
     const fullMessages = await Promise.all(
       messages.map(async (message) => {
@@ -58,13 +58,11 @@ export async function GET(req: NextRequest) {
         });
 
         return {
-          from: extractNameFromHeader(
-            messageDetail.data.payload?.headers?.find(
-              (item) => item.name === "From"
-            )?.value || ""
-          ),
-          Subject: messageDetail.data.payload?.headers?.find(
-            (item) => (item.name = "Subject")
+          from: messageDetail.data.payload?.headers?.find(
+            (item) => item.name === "From"
+          )?.value,
+          subject: messageDetail.data.payload?.headers?.find(
+            (item) => item.name === "Subject"
           )?.value,
           snippet: messageDetail.data.snippet,
           body: getMessageBody(messageDetail.data.payload),
@@ -72,9 +70,9 @@ export async function GET(req: NextRequest) {
       })
     );
 
-    return NextResponse.json(fullMessages);
+    return fullMessages;
   } catch (error) {
     console.error("Error fetching messages:", error);
-    return NextResponse.json({ error: "Failed to fetch messages" });
+    return { error: "Failed to fetch messages" };
   }
 }
