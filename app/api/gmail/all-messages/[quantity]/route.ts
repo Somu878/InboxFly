@@ -39,11 +39,9 @@ export async function GET(
               (item) => item.name === "From"
             )?.value || ""
           ),
-          Subject: messageDetail.data.payload?.headers?.find(
-            (item) => (item.name = "Subject")
-          )?.value,
           snippet: messageDetail.data.snippet,
           body: getMessageBody(messageDetail.data.payload),
+          all: messageDetail.data,
         };
       })
     );
