@@ -34,7 +34,7 @@ function MailBox() {
   return (
     <div className="flex flex-col gap-6 pb-10">
       {error && <p>Error: {error}</p>}
-      <div className="flex justify-between p-3">
+      <div className="flex justify-between p-2">
         <select
           className="border bg-gray-900 rounded-lg text-lg"
           onChange={handleQuantityChange}

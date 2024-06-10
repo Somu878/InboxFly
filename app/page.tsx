@@ -9,7 +9,7 @@ export default async function Home() {
   // const messages = fetchMessages(session.acess_token);
   return (
     <main className="flex h-screen flex-col items-center justify-between p-14 ">
-      <div className=" w-[60vw]  h-screen p-2 ">
+      <div className="w-full h-screen p-2 md:max-w-[60vw]">
         <Appbar />
         <div>
           <MailBox />
