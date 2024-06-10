@@ -3,7 +3,7 @@ import { google } from "googleapis";
 export const auth = new google.auth.OAuth2(
   process.env.GOOGLE_CLIENT_ID,
   process.env.GOOGLE_CLIENT_SECRET,
-  "http://localhost:3000"
+  process.env.NEXTAUTH_URL
 );
 function decodeBase64(encodedString: string): string {
   return Buffer.from(encodedString, "base64").toString("utf-8");
