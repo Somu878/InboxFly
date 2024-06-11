@@ -39,9 +39,13 @@ export async function GET(
               (item) => item.name === "From"
             )?.value || ""
           ),
+          subject:
+            messageDetail.data.payload?.headers?.find(
+              (item) => item.name === "Subject"
+            )?.value || "",
           snippet: messageDetail.data.snippet,
+          mimType: messageDetail.data.payload?.mimeType,
           body: getMessageBody(messageDetail.data.payload),
-          all: messageDetail.data,
         };
       })
     );

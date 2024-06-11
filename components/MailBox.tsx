@@ -2,12 +2,14 @@
 
 import { useEffect, useState } from "react";
 import MessageChip from "./MessageChip.";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import Sidebar from "./Sidebar";
 function MailBox() {
   const [messages, setMessages] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [quantity, setQuantity] = useState<number>(5);
   const [loading, setLoading] = useState<boolean>(false);
+  const [selectedEmail, setSelectedEmail] = useState(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const fetchMails = async (quantity: number) => {
     setLoading(true);
     try {
@@ -27,6 +29,15 @@ function MailBox() {
   useEffect(() => {
     fetchMails(quantity);
   }, [quantity]);
+  const handleChipClick = (email: any) => {
+    setSelectedEmail(email);
+
+    setIsSidebarOpen(true);
+  };
+
+  const handleCloseSidebar = () => {
+    setIsSidebarOpen(false);
+  };
   const handleQuantityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setQuantity(parseInt(e.target.value, 10));
   };
@@ -63,16 +74,24 @@ function MailBox() {
         </button>
       </div>
       <div className="flex flex-col gap-4">
-        {messages.map((message, index) => (
+        {messages.map((message) => (
           <MessageChip
-            key={index}
+            key={message.id}
             id={message.id}
+            mimType={message.mimType}
             from={message.from}
             snippet={message.snippet}
+            subject={message.subject}
             loading={loading}
+            onclick={() => handleChipClick(message)}
           />
         ))}
       </div>
+      <Sidebar
+        isOpen={isSidebarOpen}
+        onClose={handleCloseSidebar}
+        emailContent={selectedEmail}
+      />
     </div>
   );
 }
