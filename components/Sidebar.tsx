@@ -19,7 +19,7 @@ const Sidebar = ({ isOpen, onClose, emailContent }: SidebarProps) => {
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
       className="fixed top-0 right-0 h-full w-3/6 text-white bg-gray-900 border-l shadow-lg z-50 p-4 overflow-y-auto"
     >
-      <button onClick={onClose} className="text-xl text-gray-800">
+      <button onClick={onClose} className="text-2xl text-gray-800">
         &times;
       </button>
       {emailContent && (
