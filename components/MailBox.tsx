@@ -76,7 +76,7 @@ function MailBox() {
       <div className="flex flex-col gap-4">
         {messages.map((message) => (
           <MessageChip
-            key={message.id}
+            key={message.tag}
             id={message.id}
             mimType={message.mimType}
             from={message.from}
@@ -84,6 +84,7 @@ function MailBox() {
             subject={message.subject}
             loading={loading}
             onclick={() => handleChipClick(message)}
+            tag={""}
           />
         ))}
       </div>
