@@ -2,7 +2,6 @@ import { google } from "googleapis";
 import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 import { getMessageBody, auth, extractNameFromHeader } from "@/utils/googleApi";
-import { Quicksand } from "next/font/google";
 export async function GET(
   req: NextRequest,
   { params }: { params: { quantity: number } }
@@ -52,7 +51,6 @@ export async function GET(
 
     return NextResponse.json(fullMessages);
   } catch (error) {
-    console.error("Error fetching messages:", error);
     return NextResponse.json({ error: "Failed to fetch messages" });
   }
 }

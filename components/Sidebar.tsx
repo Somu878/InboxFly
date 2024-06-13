@@ -5,7 +5,6 @@ interface SidebarProps {
   emailContent: {
     id: string;
     from: string;
-    snippet: string;
     subject: string;
     body: string;
     mimType: string;
@@ -26,7 +25,7 @@ const Sidebar = ({ isOpen, onClose, emailContent }: SidebarProps) => {
         <div className="overflow-hidden">
           <p>{emailContent.from}</p>
           <h2 className="text-2xl font-bold mb-4">{emailContent.subject}</h2>
-          <p>{emailContent.snippet}</p>
+
           <div>{emailContent.body}</div>
         </div>
       )}

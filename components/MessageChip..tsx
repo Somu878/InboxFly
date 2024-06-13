@@ -30,7 +30,7 @@ function MessageChip({
       className="p-4 border text-sm rounded-lg md:text-base  hover:cursor-pointer"
     >
       <div
-        className="m-1 flex flex-row justify-between
+        className=" flex flex-row justify-between
        font-bold"
       >
         <div>{from}</div>

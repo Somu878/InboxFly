@@ -10,28 +10,29 @@ function MailBox() {
   const [loading, setLoading] = useState<boolean>(false);
   const [selectedEmail, setSelectedEmail] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
   const fetchMails = async (quantity: number) => {
     setLoading(true);
     try {
       const response = await fetch(`/api/gmail/all-messages/${quantity}`);
       const data = await response.json();
+
       if (response.ok) {
+        setLoading(false);
         setMessages(data);
       } else {
-        setError(data.error || "Failed to fetch messages");
+        console.log(data?.error);
+        setError(data?.error);
       }
     } catch (error) {
       console.log(error);
-      setError("Failed to fetch messages");
     }
-    setLoading(false);
   };
   useEffect(() => {
     fetchMails(quantity);
   }, [quantity]);
   const handleChipClick = (email: any) => {
     setSelectedEmail(email);
-
     setIsSidebarOpen(true);
   };
 
@@ -51,7 +52,7 @@ function MailBox() {
           onChange={handleQuantityChange}
           value={quantity}
         >
-          <option selected value="5">
+          <option defaultValue={"5"} value="5">
             5
           </option>
           <option value="10">10</option>
@@ -76,7 +77,7 @@ function MailBox() {
       <div className="flex flex-col gap-4">
         {messages.map((message) => (
           <MessageChip
-            key={message.tag}
+            key={message.id}
             id={message.id}
             mimType={message.mimType}
             from={message.from}
@@ -84,7 +85,7 @@ function MailBox() {
             subject={message.subject}
             loading={loading}
             onclick={() => handleChipClick(message)}
-            tag={""}
+            tag={message.tag}
           />
         ))}
       </div>
