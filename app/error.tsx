@@ -2,10 +2,8 @@
 
 export default function Error({
   error,
-  reset,
 }: {
   error: Error & { digest?: string };
-  reset: () => void;
 }) {
   return (
     <section className="bg-gray-900 dark:bg-gray-900 h-screen flex items-center">
