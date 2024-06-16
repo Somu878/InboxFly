@@ -2,7 +2,7 @@ import { google } from "googleapis";
 import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 import { getMessageBody, auth, extractNameFromHeader } from "@/utils/googleApi";
-import { redis } from "@/lib/redis";
+import { redis } from "@/app/lib/redis";
 export async function GET(
   req: NextRequest,
   { params }: { params: { quantity: number } }
