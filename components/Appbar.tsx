@@ -1,34 +1,43 @@
 "use client";
 import { signOut, useSession } from "next-auth/react";
+import { useState } from "react";
 import Image from "next/image";
-
+import Link from "next/link";
 function Appbar() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+
+  const handleLogout = () => {
+    signOut();
+  };
   return (
-    <div className="w-full flex flex-col sm:flex-row items-center justify-between p-4 text-white">
-      <div className="flex items-center mb-4 sm:mb-0">
-        {session?.user?.image && (
+    <div className="w-full flex flex-row justify-between items-center  border-b p-4">
+      <div className="mb-6 md:mb-0 flex   items-center">
+        <Image src={"/mail.png"} width={30} height={30} alt="logo mail" />
+        <span className="ml-2 mt-1  text-center text-2xl font-semibold whitespace-nowrap">
+          InboxFly
+        </span>
+      </div>
+      {session && status === "authenticated" ? (
+        <div className="flex items-center gap-3">
           <Image
-            src={session.user.image}
-            width={50}
-            height={50}
+            src={session?.user?.image || "/default-profile.png"}
+            width={35}
+            height={35}
             alt="user's profile"
             className="rounded-full"
           />
-        )}
-        <div className="ml-4">
-          <div className="font-bold text-lg">Hello {session?.user?.name}!</div>
-          <div className="font-light text-sm">{session?.user?.email}</div>
+          <button
+            className="p-1 px-2 rounded-md border  border-gray-100  hover:bg-gray-900"
+            onClick={handleLogout}
+          >
+            Sign out
+          </button>
         </div>
-      </div>
-      <button
-        onClick={() => {
-          signOut();
-        }}
-        className="px-4 py-2 font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-      >
-        Sign out
-      </button>
+      ) : (
+        <button className="p-1 px-2 rounded-md border  border-gray-100  hover:bg-gray-900">
+          <Link href="/api/auth/signin">Signin</Link>
+        </button>
+      )}
     </div>
   );
 }

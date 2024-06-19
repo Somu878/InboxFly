@@ -1,16 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import MessageChip from "./MessageChip.";
-import Sidebar from "./Sidebar";
+import { useSession } from "next-auth/react";
+
 function MailBox() {
   const [messages, setMessages] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [quantity, setQuantity] = useState<number>(5);
   const [loading, setLoading] = useState<boolean>(false);
-  const [selectedEmail, setSelectedEmail] = useState(null);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
+  const { status } = useSession();
   const fetchMails = async (quantity: number) => {
     setLoading(true);
     try {
@@ -31,20 +30,20 @@ function MailBox() {
   useEffect(() => {
     fetchMails(quantity);
   }, [quantity]);
-  const handleChipClick = (email: any) => {
-    setSelectedEmail(email);
-    setIsSidebarOpen(true);
-  };
 
-  const handleCloseSidebar = () => {
-    setIsSidebarOpen(false);
-  };
   const handleQuantityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setQuantity(parseInt(e.target.value, 10));
   };
+  if (status === "unauthenticated") {
+    return (
+      <div className="min-w-screen min-h-[60vh] flex justify-center items-center text-lg text-gray-300">
+        Please Sigin with your google account
+      </div>
+    );
+  }
 
   return (
-    <div className="flex flex-col gap-6 pb-10">
+    <div className="flex flex-col gap-6 pb-10 m-2 min-w-screen min-h-[60vh]">
       {error && <p>Error: {error}</p>}
       <div className="flex justify-between p-2">
         <select
@@ -58,42 +57,29 @@ function MailBox() {
           <option value="10">10</option>
           <option value="15">15</option>
         </select>
-        <button className="flex flex-row gap-2 border rounded-lg p-1 items-center justify-center">
-          <svg
-            height="16"
-            width="16"
-            fill="#FFFFFF"
-            viewBox="0 0 24 24"
-            data-name="Layer 1"
-            id="Layer_1"
-            className="sparkle"
-            color="yellow"
-          >
-            <path d="M10,21.236,6.755,14.745.264,11.5,6.755,8.255,10,1.764l3.245,6.491L19.736,11.5l-6.491,3.245ZM18,21l1.5,3L21,21l3-1.5L21,18l-1.5-3L18,18l-3,1.5ZM19.333,4.667,20.5,7l1.167-2.333L24,3.5,21.667,2.333,20.5,0,19.333,2.333,17,3.5Z"></path>
-          </svg>
-          <span>Classify</span>
-        </button>
       </div>
       <div className="flex flex-col gap-4">
-        {messages.map((message) => (
-          <MessageChip
-            key={message.id}
-            id={message.id}
-            mimType={message.mimType}
-            from={message.from}
-            snippet={message.snippet}
-            subject={message.subject}
-            loading={loading}
-            onclick={() => handleChipClick(message)}
-            tag={message.tag}
-          />
-        ))}
+        {!loading ? (
+          messages.map((message) => (
+            <MessageChip
+              key={message.id}
+              id={message.id}
+              mimType={message.mimType}
+              from={message.from}
+              snippet={message.snippet}
+              subject={message.subject}
+              tag={message.tag}
+            />
+          ))
+        ) : (
+          <div className="flex-col gap-4 flex items-center justify-center">
+            <div
+              className="m-12 inline-block h-20 w-20 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white"
+              role="status"
+            ></div>
+          </div>
+        )}
       </div>
-      <Sidebar
-        isOpen={isSidebarOpen}
-        onClose={handleCloseSidebar}
-        emailContent={selectedEmail}
-      />
     </div>
   );
 }
