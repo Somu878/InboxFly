@@ -3,6 +3,7 @@
 import { useEffect, useState, Suspense } from "react";
 import MessageChip from "./MessageChip.";
 import { useSession } from "next-auth/react";
+import SignInPage from "@/app/api/auth/signin/page";
 
 function MailBox() {
   const [messages, setMessages] = useState<any[]>([]);
@@ -35,15 +36,11 @@ function MailBox() {
     setQuantity(parseInt(e.target.value, 10));
   };
   if (status === "unauthenticated") {
-    return (
-      <div className="min-w-screen min-h-[60vh] flex justify-center items-center text-lg text-gray-300">
-        Please Sigin with your google account
-      </div>
-    );
+    return <SignInPage />;
   }
 
   return (
-    <div className="flex flex-col gap-6 pb-10 m-2 min-w-screen min-h-[60vh]">
+    <div className="flex flex-col gap-6 m-2 min-w-screen h-auto">
       {error && <p>Error: {error}</p>}
       <div className="flex justify-between p-2">
         <select
@@ -72,9 +69,9 @@ function MailBox() {
             />
           ))
         ) : (
-          <div className="flex-col gap-4 flex items-center justify-center">
+          <div className="h-full flex items-center justify-center">
             <div
-              className="m-12 inline-block h-20 w-20 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white"
+              className="m-12 inline-block h-10 w-10 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite]"
               role="status"
             ></div>
           </div>

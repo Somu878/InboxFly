@@ -10,8 +10,8 @@ function Appbar() {
     signOut();
   };
   return (
-    <div className="w-full flex flex-row justify-between items-center  border-b p-4">
-      <div className="mb-6 md:mb-0 flex   items-center">
+    <div className="w-full flex flex-row justify-between items-center  border-b border-gray-500 p-3">
+      <div className="md:mb-0 flex   items-center">
         <Image src={"/mail.png"} width={30} height={30} alt="logo mail" />
         <span className="ml-2 mt-1  text-center text-2xl font-semibold whitespace-nowrap">
           InboxFly
