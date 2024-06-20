@@ -2,12 +2,11 @@
 
 import { useEffect, useState, Suspense } from "react";
 import MessageChip from "./MessageChip.";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import SignInPage from "@/app/api/auth/signin/page";
 
 function MailBox() {
   const [messages, setMessages] = useState<any[]>([]);
-  const [error, setError] = useState<string | null>(null);
   const [quantity, setQuantity] = useState<number>(5);
   const [loading, setLoading] = useState<boolean>(false);
   const { status } = useSession();
@@ -16,21 +15,22 @@ function MailBox() {
     try {
       const response = await fetch(`/api/gmail/all-messages/${quantity}`);
       const data = await response.json();
-
       if (response.ok) {
+        if (data?.error) {
+          signOut();
+        }
         setLoading(false);
         setMessages(data);
-      } else {
-        console.log(data?.error);
-        setError(data?.error);
       }
     } catch (error) {
       console.log(error);
     }
   };
   useEffect(() => {
-    fetchMails(quantity);
-  }, [quantity]);
+    if (status === "authenticated") {
+      fetchMails(quantity);
+    }
+  }, [quantity, status]);
 
   const handleQuantityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setQuantity(parseInt(e.target.value, 10));
@@ -41,7 +41,6 @@ function MailBox() {
 
   return (
     <div className="flex flex-col gap-6 m-2 min-w-screen h-auto">
-      {error && <p>Error: {error}</p>}
       <div className="flex justify-between p-2">
         <select
           className="border bg-gray-900 rounded-lg text-lg"
@@ -57,7 +56,7 @@ function MailBox() {
       </div>
       <div className="flex flex-col gap-4">
         {!loading ? (
-          messages.map((message) => (
+          messages?.map((message) => (
             <MessageChip
               key={message.id}
               id={message.id}

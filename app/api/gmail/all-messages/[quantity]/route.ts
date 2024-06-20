@@ -1,12 +1,13 @@
 import { google } from "googleapis";
 import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
-import { redis } from "@/app/lib/redis";
+// import { redis } from "@/app/lib/redis";
 import {
   auth,
   extractNameFromHeader,
   getMessageBody,
 } from "@/app/lib/googleApi";
+import { sendStatusCode } from "next/dist/server/api-utils";
 export async function GET(
   req: NextRequest,
   { params }: { params: { quantity: number } }
@@ -53,13 +54,16 @@ export async function GET(
         };
       })
     );
-    await redis.set(
-      `messages_${quantity}`,
-      JSON.stringify(fullMessages.map(({ body, id, mimType, ...rest }) => rest))
-    );
+    // await redis.set(
+    //   `messages_${quantity}`,
+    //   JSON.stringify(fullMessages.map(({ body, id, mimType, ...rest }) => rest))
+    // );
     //redis caching for ai classification
     return NextResponse.json(fullMessages);
   } catch (error) {
-    return NextResponse.json({ error: "Failed to fetch messages" });
+    return NextResponse.json({
+      error: "Failed to fetch messages",
+      sendStatusCode: 500,
+    });
   }
 }
