@@ -7,7 +7,7 @@ import SignInPage from "@/app/api/auth/signin/page";
 
 function MailBox() {
   const [messages, setMessages] = useState<any[]>([]);
-  const [quantity, setQuantity] = useState<number>(5);
+  const [quantity, setQuantity] = useState<number>(7);
   const [loading, setLoading] = useState<boolean>(false);
   const { status } = useSession();
   const fetchMails = async (quantity: number) => {
@@ -31,30 +31,20 @@ function MailBox() {
       fetchMails(quantity);
     }
   }, [quantity, status]);
-
-  const handleQuantityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setQuantity(parseInt(e.target.value, 10));
+  const handleLoadBtn = () => {
+    setQuantity(quantity + 3);
   };
+  // const handleQuantityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  //   setQuantity(parseInt(e.target.value, 10));
+  // };
   if (status === "unauthenticated") {
     return <SignInPage />;
   }
 
   return (
-    <div className="flex flex-col gap-6 m-2 min-w-screen h-auto">
-      <div className="flex justify-between p-2">
-        <select
-          className="border bg-gray-900 rounded-lg text-lg"
-          onChange={handleQuantityChange}
-          value={quantity}
-        >
-          <option defaultValue={"5"} value="5">
-            5
-          </option>
-          <option value="10">10</option>
-          <option value="15">15</option>
-        </select>
-      </div>
-      <div className="flex flex-col gap-4">
+    <div className="min-w-screen h-full">
+      <h1 className="m-2 font-semibold text-lg">Your recent emails</h1>
+      <div className="flex flex-col gap-4 mt- m-2">
         {!loading ? (
           messages?.map((message) => (
             <MessageChip
@@ -68,14 +58,21 @@ function MailBox() {
             />
           ))
         ) : (
-          <div className="h-full flex items-center justify-center">
+          <div className="h-screen flex items-center justify-center ">
             <div
-              className="m-12 inline-block h-10 w-10 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite]"
+              className="-mt-10 inline-block h-16 w-16 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite]"
               role="status"
             ></div>
           </div>
         )}
       </div>
+      {!loading && (
+        <div className="flex justify-center items-center">
+          <button className="border p-1 rounded-md" onClick={handleLoadBtn}>
+            Load more
+          </button>
+        </div>
+      )}
     </div>
   );
 }

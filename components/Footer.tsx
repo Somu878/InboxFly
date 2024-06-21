@@ -2,7 +2,7 @@ import Image from "next/image";
 function Footer() {
   return (
     <footer className="bg-black">
-      <div className=" mx-auto w-full  p-4 py-6 lg:py-6">
+      <div className=" mx-auto w-full  p-4 py-6 lg:py-4">
         <div className="md:flex md:justify-between">
           <div className="mb-6 md:mb-0 flex   items-center">
             <Image src={"/mail.png"} width={30} height={30} alt="logo mail" />
@@ -10,9 +10,9 @@ function Footer() {
               InboxFly
             </span>
           </div>
-          <div className="grid grid-cols-2 gap-4 sm:gap-6 sm:grid-cols-3">
+          <div className="grid grid-cols-2 gap-2 sm:gap-6 sm:grid-cols-3">
             <div>
-              <h2 className="mb-6 text-sm font-semibold text-gray-200 uppercase">
+              <h2 className="mb-4 text-sm font-semibold text-gray-200 uppercase">
                 Contact us
               </h2>
               <ul className="text-gray-500 dark:text-gray-400 font-medium">
@@ -27,7 +27,7 @@ function Footer() {
               </ul>
             </div>
             <div>
-              <h2 className="mb-6 text-sm font-semibold text-gray-200 uppercase dark:text-white">
+              <h2 className="mb-4 text-sm font-semibold text-gray-200 uppercase dark:text-white">
                 Follow us
               </h2>
               <ul className="text-gray-500 dark:text-gray-400 font-medium">
@@ -50,7 +50,7 @@ function Footer() {
               </ul>
             </div>
             <div>
-              <h2 className="mb-6 text-sm font-semibold text-gray-200 uppercase dark:text-white">
+              <h2 className="mb-4 text-sm font-semibold text-gray-200 uppercase dark:text-white">
                 Legal
               </h2>
               <ul className="text-gray-500 dark:text-gray-400 font-medium">
@@ -68,7 +68,7 @@ function Footer() {
             </div>
           </div>
         </div>
-        <hr className="my-4 border-gray-200 sm:mx-auto  lg:my-6" />
+        <hr className="my-2 border-gray-200 sm:mx-auto  lg:my-4" />
         <div className="sm:flex sm:items-center sm:justify-center">
           <span className="text-sm text-gray-500 sm:text-center ">
             © 2024{" "}

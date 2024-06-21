@@ -14,13 +14,20 @@ interface MessageChipProps {
 }
 function MessageChip({ from, snippet, subject, tag }: MessageChipProps) {
   const [res, setres] = useState<string | null>(null);
+  const [btnLoading, setBtnLoading] = useState<boolean>(false);
   const [ClassifyState, setClassifyState] = useState(false);
   const classify = async () => {
+    setBtnLoading(true);
     try {
       const response: any = await ClassifyEmail({ from, snippet });
       setres(response);
       setClassifyState(true);
-    } catch (error) {}
+      setTimeout(() => {
+        setBtnLoading(false);
+      }, 1500);
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div className="p-4 border text-sm rounded-lg md:text-base  hover:cursor-pointer">
@@ -29,7 +36,11 @@ function MessageChip({ from, snippet, subject, tag }: MessageChipProps) {
        font-bold"
       >
         <div>{from}</div>
-        <ClassifyButton action={classify} classified={ClassifyState} />
+        <ClassifyButton
+          action={classify}
+          classified={ClassifyState}
+          state={btnLoading}
+        />
       </div>
       <p className="font-light pt-1 text-xs md:text-sm">{snippet}</p>
       {res && (

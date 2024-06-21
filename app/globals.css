@@ -25,6 +25,9 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+button {
+  cursor: pointer;
+}
 
 @layer utilities {
   .text-balance {
