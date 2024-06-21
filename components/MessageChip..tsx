@@ -30,7 +30,7 @@ function MessageChip({ from, snippet, subject, tag }: MessageChipProps) {
     }
   };
   return (
-    <div className="p-4 border text-sm rounded-lg md:text-base  hover:cursor-pointer">
+    <div className="p-3 border text-sm rounded-lg md:text-base  hover:cursor-pointer">
       <div
         className=" flex flex-row justify-between
        font-bold"

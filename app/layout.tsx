@@ -5,7 +5,7 @@ import { Providers } from "./Provider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "InboxFly",
+  title: "InboxFly- AI Email Classifier",
   description:
     "Fly through your inbox effortlessly with this AI-powered email management tool",
 };

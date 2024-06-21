@@ -12,7 +12,7 @@ export async function ClassifyEmail(emailContent: emailContentProps) {
       messages: [
         {
           role: "user",
-          content: `Summarize the following email, focusing on the key message and eliminating unnecessary details: ${JSON.stringify(
+          content: `Summarize the following email, focusing on the actual message and eliminating unnecessary details: ${JSON.stringify(
             emailContent
           )}`,
         },

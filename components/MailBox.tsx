@@ -15,10 +15,10 @@ function MailBox() {
     try {
       const response = await fetch(`/api/gmail/all-messages/${quantity}`);
       const data = await response.json();
+      if (data?.error) {
+        signOut();
+      }
       if (response.ok) {
-        if (data?.error) {
-          signOut();
-        }
         setLoading(false);
         setMessages(data);
       }
@@ -34,9 +34,6 @@ function MailBox() {
   const handleLoadBtn = () => {
     setQuantity(quantity + 3);
   };
-  // const handleQuantityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-  //   setQuantity(parseInt(e.target.value, 10));
-  // };
   if (status === "unauthenticated") {
     return <SignInPage />;
   }
@@ -67,8 +64,11 @@ function MailBox() {
         )}
       </div>
       {!loading && (
-        <div className="flex justify-center items-center">
-          <button className="border p-1 rounded-md" onClick={handleLoadBtn}>
+        <div className="flex justify-center items-center pt-2">
+          <button
+            className="border p-1 rounded-md bg-gray-900"
+            onClick={handleLoadBtn}
+          >
             Load more
           </button>
         </div>
