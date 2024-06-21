@@ -7,7 +7,7 @@ import SignInPage from "@/app/api/auth/signin/page";
 
 function MailBox() {
   const [messages, setMessages] = useState<any[]>([]);
-  const [quantity, setQuantity] = useState<number>(7);
+  const [quantity, setQuantity] = useState<number>(10);
   const [loading, setLoading] = useState<boolean>(false);
   const { status } = useSession();
   const fetchMails = async (quantity: number) => {
