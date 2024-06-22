@@ -13,15 +13,12 @@ function Footer() {
           <div className="grid grid-cols-2 gap-2 sm:gap-6 sm:grid-cols-3">
             <div>
               <h2 className="mb-4 text-sm font-semibold text-gray-200 uppercase">
-                Contact us
+                Contact
               </h2>
               <ul className="text-gray-500 dark:text-gray-400 font-medium">
                 <li>
-                  <a
-                    href="https://cal.com/somu-kandula-u58ml4/15min"
-                    className="hover:underline"
-                  >
-                    Shedule a Call?
+                  <a href="/feedback" className="hover:underline">
+                    Write to Us?
                   </a>
                 </li>
               </ul>

@@ -7,9 +7,6 @@ export default async function Home() {
   return (
     <>
       <main className=" flex  flex-col  justify-between ">
-        <nav>
-          <Appbar />
-        </nav>
         <div className=" z-10 w-full min-h-screen">
           <MailBox />
         </div>

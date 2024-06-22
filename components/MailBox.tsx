@@ -4,6 +4,7 @@ import { useEffect, useState, Suspense } from "react";
 import MessageChip from "./MessageChip.";
 import { signOut, useSession } from "next-auth/react";
 import SignInPage from "@/app/api/auth/signin/page";
+import Banner from "./Banner";
 
 function MailBox() {
   const [messages, setMessages] = useState<any[]>([]);
@@ -35,7 +36,7 @@ function MailBox() {
     setQuantity(quantity + 3);
   };
   if (status === "unauthenticated") {
-    return <SignInPage />;
+    return <Banner />;
   }
 
   return (
