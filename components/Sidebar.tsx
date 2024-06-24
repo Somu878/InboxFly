@@ -26,7 +26,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
             <a href="#">My Account</a>
           </li>
           <li>
-            <a href="#">Credits</a>
+            <a href="#">Credits:</a>
           </li>
         </ul>
       </div>
