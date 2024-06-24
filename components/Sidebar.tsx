@@ -15,7 +15,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
       initial={{ x: "100%" }}
       animate={{ x: isOpen ? "0%" : "100%" }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
-      className=" fixed top-0 right-0 h-screen w-1/6 text-white bg-gray-900 border-b shadow-lg z-50 p-4 overflow-y-auto flex justify-between flex-col"
+      className=" fixed top-0 right-0 h-screen w-2/5 md:w-1/6 text-white bg-gray-900 border-b shadow-lg z-50 p-4 overflow-y-auto flex justify-between flex-col"
     >
       <div>
         <button onClick={onClose} className="text-2xl text-gray-800">
